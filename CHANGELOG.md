@@ -1,5 +1,3 @@
-* Add support for Linux Mint (#55, @ssaki).
-
 #### 2015-04-28 - 1.0.0
 * Strip whitespace to fix pool detection (#30, @CyBeRoni).
 * Convert spec system to beaker tests (#33, @igalic).

@@ -18,19 +18,33 @@ class libvirt::params {
       $deb_default = false
     }
     'Debian': {
-      $libvirt_package = 'libvirt-bin'
+#      $libvirt_package = 'libvirt-bin'
       $virtinst_package = 'virtinst'
       $radvd_package = 'radvd'
       $sysconfig = false
       $deb_default = {}
       # UNIX socket
+      $unix_sock_ro_perms = '0770'
       $auth_unix_ro = 'none'
       $unix_sock_rw_perms = '0770'
+      $unix_sock_dir = '/var/run/libvirt'
       $auth_unix_rw = 'none'
       case $::operatingsystem {
-        'Ubuntu', 'LinuxMint': {
+        'Ubuntu': {
+          $libvirt_package = 'libvirt-bin'
           $libvirt_service = 'libvirt-bin'
           $unix_sock_group = 'libvirtd'
+        }
+        'Debian': {
+          if (versioncmp($::operatingsystemrelease, '9') >= 0) {
+            $libvirt_package = 'libvirt-daemon-system'
+            $libvirt_service = 'libvirtd'
+            $unix_sock_group = 'libvirtd'
+          } else {
+            $libvirt_package = 'libvirt-bin'
+            $libvirt_service = 'libvirt-bin'
+            $unix_sock_group = 'libvirtd'
+          }
         }
         default: {
           $libvirt_service = 'libvirtd'

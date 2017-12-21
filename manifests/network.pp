@@ -69,7 +69,7 @@
 #
 define libvirt::network (
   $ensure             = 'present',
-  $autostart          = false,
+  Boolean $autostart          = false,
   $bridge             = undef,
   $forward_mode       = undef,
   $forward_dev        = undef,
@@ -78,9 +78,6 @@ define libvirt::network (
   $ipv6               = undef,
   $mac                = undef,
 ) {
-  validate_bool ($autostart)
-  validate_re ($ensure, '^(present|defined|enabled|running|undefined|absent)$',
-    'Ensure must be one of defined (present), enabled (running), or undefined (absent).')
 
   include ::libvirt::params
 
